@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mon Dressing</title>
+  <title>Mes Projets</title>
   <link rel="manifest" href="manifest.json">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #fdfbf7;
+      --bg-color: #f7f6f4;
       --card-bg: #ffffff;
-      --accent-brown: #6b4c35;
-      --accent-hover: #523927;
-      --beige-light: #f4eee8;
-      --beige-border: #e6dad0;
-      --text-dark: #2c221e;
-      --text-muted: #7a6b63;
+      --accent-brown: #5a5048;
+      --accent-hover: #443c36;
+      --beige-light: #ece8e3;
+      --beige-border: #dcd6cd;
+      --text-dark: #2b2825;
+      --text-muted: #7c756e;
       --badge-dirty: #c26d5c;
       --badge-clean: #73907c;
       --radius-lg: 24px;
       --radius-md: 16px;
-      --shadow: 0 8px 24px rgba(107, 76, 53, 0.08);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,10 +38,11 @@
       max-width: 420px;
       margin: 60px auto;
       background: var(--card-bg);
-      padding: 35px 25px;
+      padding: 40px 30px;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
       text-align: center;
+      border: 1px solid var(--beige-border);
     }
     #auth-screen h2 {
       color: var(--accent-brown);
@@ -54,7 +55,7 @@
 
     .btn-google {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       background: #ffffff;
       border: 2px solid var(--beige-border);
       border-radius: var(--radius-md);
@@ -76,17 +77,16 @@
       margin: 20px 0;
       color: var(--text-muted);
       font-size: 0.85rem;
-      position: relative;
     }
 
-    /* Application principale */
-    #app-screen { display: none; }
-
+    /* En-tête globale */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--beige-border);
     }
     header h1 {
       font-weight: 500;
@@ -95,16 +95,69 @@
       text-transform: uppercase;
       font-size: 1.5rem;
     }
-    .btn-logout {
+    .header-btns {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-secondary {
       background: var(--beige-light);
-      border: none;
-      padding: 8px 14px;
+      border: 1px solid var(--beige-border);
+      padding: 8px 16px;
       border-radius: 20px;
       font-size: 0.85rem;
       color: var(--accent-brown);
       cursor: pointer;
       font-weight: 500;
+      transition: background 0.2s;
     }
+    .btn-secondary:hover { background: var(--beige-border); }
+
+    /* PAGE SELECTION DES PROJETS */
+    #projects-screen { display: none; }
+    
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 2px solid var(--beige-border);
+      border-radius: var(--radius-lg);
+      padding: 35px 25px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-brown);
+      background: #faf8f5;
+    }
+    .project-icon {
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+    }
+    .project-card h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--accent-brown);
+      margin-bottom: 8px;
+    }
+    .project-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* APPLICATION DRESSING */
+    #app-screen { display: none; }
 
     nav {
       display: flex;
@@ -142,6 +195,7 @@
       box-shadow: var(--shadow);
       max-width: 600px;
       margin: 0 auto;
+      border: 1px solid var(--beige-border);
     }
     .form-group { margin-bottom: 18px; text-align: left; }
     label { display: block; font-size: 0.9rem; font-weight: 500; color: var(--accent-brown); margin-bottom: 6px; }
@@ -206,6 +260,7 @@
       background: var(--card-bg);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
+      border: 1px solid var(--beige-border);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -330,7 +385,7 @@
 
   <!-- ÉCRAN D'AUTHENTIFICATION -->
   <div id="auth-screen">
-    <h2>Mon Dressing</h2>
+    <h2>Espace Personnel</h2>
     <button class="btn-google" onclick="loginWithGoogle()">
       <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
       Continuer avec Google
@@ -351,11 +406,39 @@
     </form>
   </div>
 
+  <!-- ÉCRAN DES PROJETS (MENU PRINCIPAL) -->
+  <div id="projects-screen">
+    <header>
+      <h1>Mes Projets</h1>
+      <div class="header-btns">
+        <button class="btn-secondary" onclick="logout()">Déconnexion</button>
+      </div>
+    </header>
+
+    <div class="projects-grid">
+      <div class="project-card" onclick="openProject('dressing')">
+        <div class="project-icon">👔</div>
+        <h3>Mon Dressing</h3>
+        <p>Garde-robe, panier à linge et créateur de tenues</p>
+      </div>
+
+      <!-- Projet exemple pour l'avenir -->
+      <div class="project-card" style="opacity: 0.6; cursor: default;">
+        <div class="project-icon">✨</div>
+        <h3>Nouveau Projet</h3>
+        <p>À venir bientôt...</p>
+      </div>
+    </div>
+  </div>
+
   <!-- ÉCRAN PRINCIPAL DRESSING -->
   <div id="app-screen">
     <header>
       <h1>Mon Dressing</h1>
-      <button class="btn-logout" onclick="logout()">Déconnexion</button>
+      <div class="header-btns">
+        <button class="btn-secondary" onclick="showProjects()">← Projets</button>
+        <button class="btn-secondary" onclick="logout()">Déconnexion</button>
+      </div>
     </header>
 
     <nav>
@@ -466,12 +549,11 @@
 
     // =========================================================
     // LISTE BLANCHE DES EMAILS AUTORISÉS
-    // Indiquez ici (en minuscules) les e-mails ayant le droit de se connecter
     // =========================================================
     const ALLOWED_EMAILS = [
       "timothee.gasparotto@gmail.com",
-      "k.ledillau@yahoo.fr",
-      "louison.gasparotto@gmail.com"
+      "ami1@gmail.com",
+      "famille@gmail.com"
     ];
 
     function isEmailAllowed(email) {
@@ -493,9 +575,8 @@
       const email = document.getElementById('auth-email').value.trim();
       const pass = document.getElementById('auth-password').value;
 
-      // Vérification avant de tenter la création/connexion
       if (!isEmailAllowed(email)) {
-        alert("Accès refusé : Votre adresse e-mail n'est pas autorisée à accéder à ce site.");
+        alert("Accès refusé : Votre adresse e-mail n'est pas autorisée.");
         return;
       }
 
@@ -518,23 +599,36 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Vérification de sécurité lors du changement d'état (très important pour Google)
         if (!isEmailAllowed(user.email)) {
-          alert("Accès refusé : L'adresse Google (" + user.email + ") n'est pas autorisée.");
+          alert("Accès refusé : L'adresse (" + user.email + ") n'est pas autorisée.");
           await signOut(auth);
           return;
         }
 
         currentUser = user;
-        document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('app-screen').style.display = 'block';
-        await loadUserClothes();
+        showProjects();
       } else {
         currentUser = null;
         document.getElementById('auth-screen').style.display = 'block';
+        document.getElementById('projects-screen').style.display = 'none';
         document.getElementById('app-screen').style.display = 'none';
       }
     });
+
+    // GESTION DES ECRANS
+    window.showProjects = () => {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('app-screen').style.display = 'none';
+      document.getElementById('projects-screen').style.display = 'block';
+    };
+
+    window.openProject = async (projectId) => {
+      if (projectId === 'dressing') {
+        document.getElementById('projects-screen').style.display = 'none';
+        document.getElementById('app-screen').style.display = 'block';
+        await loadUserClothes();
+      }
+    };
 
     async function loadUserClothes() {
       if (!currentUser) return;
