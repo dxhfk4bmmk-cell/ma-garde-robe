@@ -255,6 +255,7 @@
       min-height: 480px;
       position: relative;
       overflow: hidden;
+      touch-action: none;
     }
     .editor-canvas-hint {
       position: absolute;
@@ -262,10 +263,11 @@
       left: 50%;
       transform: translate(-50%, -50%);
       color: var(--beige-border);
-      font-size: 1.2rem;
-      font-weight: 600;
+      font-size: 1.1rem;
+      font-weight: 500;
       text-align: center;
       pointer-events: none;
+      line-height: 1.5;
     }
     .editor-inventory {
       flex: 1;
@@ -287,15 +289,15 @@
     }
     .inventory-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
 
-    /* Élément sur le canevas avec contrôle de taille */
+    /* Élément interactif sur le canevas */
     .canvas-item {
       position: absolute;
       top: 25%;
       left: 25%;
       cursor: grab;
       user-select: none;
+      touch-action: none;
       display: inline-block;
-      padding: 10px;
     }
     .canvas-item img {
       width: 140px;
@@ -304,39 +306,23 @@
       pointer-events: none;
       display: block;
     }
-    .canvas-item-controls {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 2px 8px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      border: 1px solid var(--beige-border);
-    }
-    .canvas-item-controls input[type="range"] {
-      width: 60px;
-      height: 4px;
-      padding: 0;
-      cursor: pointer;
-    }
     .canvas-item-close {
+      position: absolute;
+      top: -10px;
+      right: -10px;
       background: #c26d5c;
       color: white;
       border-radius: 50%;
-      width: 18px;
-      height: 18px;
+      width: 22px;
+      height: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
       cursor: pointer;
-      font-size: 0.75rem;
-      line-height: 1;
+      font-size: 0.8rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 10;
     }
   </style>
 </head>
@@ -396,7 +382,11 @@
     <div id="tab-editor" class="tab-content">
       <div class="editor-layout">
         <div class="editor-canvas-container" id="editor-canvas">
-          <div class="editor-canvas-hint" id="canvas-hint">Clique sur un vêtement,<br>puis déplace-le.</div>
+          <div class="editor-canvas-hint" id="canvas-hint">
+            Clique sur un vêtement pour l'ajouter.<br>
+            • Déplace avec un doigt/souris<br>
+            • Zoom avec la molette ou 2 doigts 🤏
+          </div>
         </div>
         <div class="editor-inventory">
           <h3 style="margin-bottom: 12px; color: var(--accent-brown); font-size:1rem;">Vêtements propres</h3>
@@ -691,23 +681,14 @@
       el.style.top = (canvas.offsetHeight / 2 - 70) + 'px';
 
       el.innerHTML = `
-        <div class="canvas-item-controls">
-          <input type="range" min="60" max="300" value="140" class="size-slider">
-          <div class="canvas-item-close">×</div>
-        </div>
+        <div class="canvas-item-close">×</div>
         <img src="${item.photo}">
       `;
       
       canvas.appendChild(el);
 
       const img = el.querySelector('img');
-      const slider = el.querySelector('.size-slider');
       const closeBtn = el.querySelector('.canvas-item-close');
-
-      // Redimensionnement via le curseur
-      slider.oninput = (e) => {
-        img.style.width = e.target.value + 'px';
-      };
 
       // Suppression de l'élément
       closeBtn.onclick = (e) => {
@@ -718,55 +699,97 @@
         }
       };
 
-      makeDraggable(el);
+      setupInteraction(el, img);
     }
 
-    function makeDraggable(elmnt) {
+    // Gestion du déplacement, du Zoom Molette (PC) et du Pincement (Mobile)
+    function setupInteraction(elmnt, img) {
+      let currentWidth = 140;
       let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-      elmnt.onmousedown = dragMouseDown;
-      elmnt.ontouchstart = dragTouchStart;
+      let initialPinchDist = null;
+      let initialWidthOnPinch = 140;
 
-      function dragMouseDown(e) {
-        if (e.target.tagName === 'INPUT') return; // Ne pas déplacer si on touche au slider
+      // --- ZOOM MOLETTE SUR PC ---
+      elmnt.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (e.deltaY < 0) {
+          currentWidth = Math.min(350, currentWidth + 12);
+        } else {
+          currentWidth = Math.max(50, currentWidth - 12);
+        }
+        img.style.width = currentWidth + 'px';
+      }, { passive: false });
+
+      // --- DÉPLACEMENT SOURIS (PC) ---
+      elmnt.onmousedown = (e) => {
+        if (e.target.classList.contains('canvas-item-close')) return;
         e.preventDefault();
         pos3 = e.clientX;
         pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-      }
+        document.onmouseup = () => {
+          document.onmouseup = null;
+          document.onmousemove = null;
+        };
+        document.onmousemove = (e) => {
+          e.preventDefault();
+          pos1 = pos3 - e.clientX;
+          pos2 = pos4 - e.clientY;
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+          elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+          elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        };
+      };
 
-      function dragTouchStart(e) {
-        if (e.target.tagName === 'INPUT') return;
-        pos3 = e.touches[0].clientX;
-        pos4 = e.touches[0].clientY;
-        document.ontouchend = closeDragElement;
-        document.ontouchmove = elementDragTouch;
-      }
+      // --- GESTION TACTILE : DÉPLACEMENT (1 DOIGT) + PINCEMENT ZOOM (2 DOIGTS) ---
+      elmnt.addEventListener('touchstart', (e) => {
+        if (e.target.classList.contains('canvas-item-close')) return;
 
-      function elementDrag(e) {
-        e.preventDefault();
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-      }
+        if (e.touches.length === 1) {
+          // 1 Doigt : Déplacement
+          pos3 = e.touches[0].clientX;
+          pos4 = e.touches[0].clientY;
+        } else if (e.touches.length === 2) {
+          // 2 Doigts : Initialisation du Pincement
+          initialPinchDist = getPinchDistance(e);
+          initialWidthOnPinch = currentWidth;
+        }
+      }, { passive: false });
 
-      function elementDragTouch(e) {
-        pos1 = pos3 - e.touches[0].clientX;
-        pos2 = pos4 - e.touches[0].clientY;
-        pos3 = e.touches[0].clientX;
-        pos4 = e.touches[0].clientY;
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-      }
+      elmnt.addEventListener('touchmove', (e) => {
+        if (e.target.classList.contains('canvas-item-close')) return;
 
-      function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-        document.ontouchend = null;
-        document.ontouchmove = null;
+        if (e.touches.length === 1 && initialPinchDist === null) {
+          // Déplacement à 1 doigt
+          pos1 = pos3 - e.touches[0].clientX;
+          pos2 = pos4 - e.touches[0].clientY;
+          pos3 = e.touches[0].clientX;
+          pos4 = e.touches[0].clientY;
+          elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+          elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        } else if (e.touches.length === 2) {
+          // Zoom à 2 doigts
+          e.preventDefault();
+          const currentDist = getPinchDistance(e);
+          if (initialPinchDist && currentDist) {
+            const scale = currentDist / initialPinchDist;
+            currentWidth = Math.min(350, Math.max(50, initialWidthOnPinch * scale));
+            img.style.width = currentWidth + 'px';
+          }
+        }
+      }, { passive: false });
+
+      elmnt.addEventListener('touchend', (e) => {
+        if (e.touches.length < 2) {
+          initialPinchDist = null;
+        }
+      });
+
+      function getPinchDistance(e) {
+        return Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
       }
     }
   </script>
