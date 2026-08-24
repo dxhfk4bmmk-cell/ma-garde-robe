@@ -287,29 +287,56 @@
     }
     .inventory-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
 
+    /* Élément sur le canevas avec contrôle de taille */
     .canvas-item {
       position: absolute;
       top: 25%;
       left: 25%;
       cursor: grab;
       user-select: none;
+      display: inline-block;
+      padding: 10px;
     }
-    .canvas-item img { width: 140px; height: auto; border-radius: var(--radius-md); pointer-events: none; }
-    .canvas-item-close {
+    .canvas-item img {
+      width: 140px;
+      height: auto;
+      border-radius: var(--radius-md);
+      pointer-events: none;
+      display: block;
+    }
+    .canvas-item-controls {
       position: absolute;
-      top: -8px;
-      right: -8px;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2px 8px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      border: 1px solid var(--beige-border);
+    }
+    .canvas-item-controls input[type="range"] {
+      width: 60px;
+      height: 4px;
+      padding: 0;
+      cursor: pointer;
+    }
+    .canvas-item-close {
       background: #c26d5c;
       color: white;
       border-radius: 50%;
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
       cursor: pointer;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
+      line-height: 1;
     }
   </style>
 </head>
@@ -434,7 +461,6 @@
       where 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Clés de configuration de ton projet
     const firebaseConfig = {
       apiKey: "AIzaSyCChFpWShbuLd7ejME5mlrtQpZwEvANeJw",
       authDomain: "mon-dressing-e28c1.firebaseapp.com",
@@ -665,11 +691,33 @@
       el.style.top = (canvas.offsetHeight / 2 - 70) + 'px';
 
       el.innerHTML = `
-        <div class="canvas-item-close" onclick="this.parentElement.remove(); if(document.querySelectorAll('.canvas-item').length === 0) document.getElementById('canvas-hint').style.display = 'block';">×</div>
+        <div class="canvas-item-controls">
+          <input type="range" min="60" max="300" value="140" class="size-slider">
+          <div class="canvas-item-close">×</div>
+        </div>
         <img src="${item.photo}">
       `;
       
       canvas.appendChild(el);
+
+      const img = el.querySelector('img');
+      const slider = el.querySelector('.size-slider');
+      const closeBtn = el.querySelector('.canvas-item-close');
+
+      // Redimensionnement via le curseur
+      slider.oninput = (e) => {
+        img.style.width = e.target.value + 'px';
+      };
+
+      // Suppression de l'élément
+      closeBtn.onclick = (e) => {
+        e.stopPropagation();
+        el.remove();
+        if (document.querySelectorAll('.canvas-item').length === 0) {
+          document.getElementById('canvas-hint').style.display = 'block';
+        }
+      };
+
       makeDraggable(el);
     }
 
@@ -679,6 +727,7 @@
       elmnt.ontouchstart = dragTouchStart;
 
       function dragMouseDown(e) {
+        if (e.target.tagName === 'INPUT') return; // Ne pas déplacer si on touche au slider
         e.preventDefault();
         pos3 = e.clientX;
         pos4 = e.clientY;
@@ -687,6 +736,7 @@
       }
 
       function dragTouchStart(e) {
+        if (e.target.tagName === 'INPUT') return;
         pos3 = e.touches[0].clientX;
         pos4 = e.touches[0].clientY;
         document.ontouchend = closeDragElement;
