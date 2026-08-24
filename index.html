@@ -5,177 +5,274 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mon Dressing</title>
   <link rel="manifest" href="manifest.json">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-color: #fdfbf7;
       --card-bg: #ffffff;
       --accent-brown: #6b4c35;
+      --accent-hover: #523927;
       --beige-light: #f4eee8;
       --beige-border: #e6dad0;
       --text-dark: #2c221e;
       --text-muted: #7a6b63;
-      --badge-dirty: #b95d4b;
-      --badge-clean: #5a7d65;
+      --badge-dirty: #c26d5c;
+      --badge-clean: #73907c;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --shadow: 0 8px 24px rgba(107, 76, 53, 0.08);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Poppins', sans-serif;
       background-color: var(--bg-color);
       color: var(--text-dark);
-      padding: 20px 15px 80px 15px;
-      max-width: 500px;
+      padding: 20px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
-    header { text-align: center; margin-bottom: 20px; }
+    header { text-align: center; margin-bottom: 30px; margin-top: 10px; }
     header h1 {
-      font-weight: 400;
-      letter-spacing: 2px;
+      font-weight: 500;
+      letter-spacing: 3px;
       color: var(--accent-brown);
       text-transform: uppercase;
-      font-size: 1.3rem;
+      font-size: 1.8rem;
     }
 
     nav {
       display: flex;
       background: var(--beige-light);
-      padding: 4px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      border: 1px solid var(--beige-border);
+      padding: 6px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 30px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
     }
     nav button {
       flex: 1;
       border: none;
       background: transparent;
-      padding: 10px 5px;
-      font-size: 0.8rem;
-      font-weight: 600;
+      padding: 12px 10px;
+      font-size: 1.1rem;
+      font-weight: 500;
       color: var(--text-muted);
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       cursor: pointer;
+      transition: all 0.3s ease;
     }
     nav button.active {
       background: var(--card-bg);
       color: var(--accent-brown);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
-    .tab-content { display: none; }
+    .tab-content { display: none; animation: fadeIn 0.4s ease; }
     .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
     /* Formulaires */
-    .form-group { margin-bottom: 12px; }
-    label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+    .form-container {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 1rem; font-weight: 500; color: var(--accent-brown); margin-bottom: 8px; }
     input, select, textarea {
       width: 100%;
-      padding: 10px;
-      border: 1px solid var(--beige-border);
-      border-radius: 8px;
-      background: var(--card-bg);
-      font-size: 0.9rem;
+      padding: 15px;
+      border: 2px solid var(--beige-light);
+      border-radius: var(--radius-md);
+      background: var(--bg-color);
+      font-family: inherit;
+      font-size: 1rem;
       color: var(--text-dark);
+      transition: border 0.3s;
     }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-brown); }
     button.btn-primary {
       width: 100%;
-      padding: 12px;
+      padding: 16px;
       background: var(--accent-brown);
       color: #fff;
       border: none;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      border-radius: var(--radius-md);
+      font-size: 1.1rem;
       font-weight: 600;
       cursor: pointer;
-      margin-top: 10px;
+      transition: background 0.3s;
     }
+    button.btn-primary:hover { background: var(--accent-hover); }
 
     /* Filtres */
     .filters {
       display: flex;
-      gap: 6px;
-      margin-bottom: 15px;
+      gap: 10px;
+      margin-bottom: 25px;
       overflow-x: auto;
-      padding-bottom: 5px;
+      padding-bottom: 10px;
     }
     .filter-btn {
-      padding: 5px 12px;
-      border-radius: 20px;
-      border: 1px solid var(--beige-border);
+      padding: 8px 18px;
+      border-radius: 30px;
+      border: 2px solid var(--beige-border);
       background: var(--card-bg);
-      font-size: 0.75rem;
+      font-size: 1rem;
+      font-family: inherit;
       color: var(--text-muted);
       cursor: pointer;
       white-space: nowrap;
+      transition: all 0.2s;
     }
-    .filter-btn.active {
+    .filter-btn.active, .filter-btn:hover {
       background: var(--accent-brown);
       color: #fff;
       border-color: var(--accent-brown);
     }
 
-    /* Grille de vêtements */
+    /* Grille Dressing */
     .grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
     }
     .card {
       background: var(--card-bg);
-      border: 1px solid var(--beige-border);
-      border-radius: 10px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
     .card img {
       width: 100%;
-      height: 140px;
+      height: 220px;
       object-fit: cover;
       background: var(--beige-light);
     }
-    .card-body { padding: 10px; flex: 1; display: flex; flex-direction: column; }
-    .card-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 2px; }
-    .card-desc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
+    .card-body { padding: 15px; flex: 1; display: flex; flex-direction: column; }
+    .card-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+    .card-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; }
     
     .badge {
-      display: inline-block;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.65rem;
-      font-weight: 600;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
       color: white;
-      margin-bottom: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     .badge.clean { background: var(--badge-clean); }
     .badge.dirty { background: var(--badge-dirty); }
 
-    .card-actions {
-      margin-top: auto;
-      display: flex;
-      gap: 4px;
-    }
+    .card-actions { margin-top: auto; display: flex; gap: 8px; }
     .card-actions button {
       flex: 1;
-      padding: 5px;
-      font-size: 0.7rem;
-      border: 1px solid var(--beige-border);
+      padding: 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      border: none;
       background: var(--beige-light);
-      border-radius: 6px;
+      color: var(--accent-brown);
+      border-radius: var(--radius-md);
       cursor: pointer;
+      font-weight: 500;
     }
+    .card-actions button.btn-delete { background: #fff0ed; color: #c26d5c; flex: 0.4; }
 
-    /* Éditeur de tenue */
-    .slot {
+    /* Éditeur de tenue (Drag & Drop) */
+    .editor-layout {
+      display: flex;
+      gap: 20px;
+      flex-direction: column;
+    }
+    @media (min-width: 768px) {
+      .editor-layout { flex-direction: row; }
+    }
+    .editor-canvas-container {
+      flex: 2;
       background: var(--card-bg);
-      border: 1px dashed var(--beige-border);
-      border-radius: 10px;
+      border: 3px dashed var(--beige-border);
+      border-radius: var(--radius-lg);
+      min-height: 500px;
+      position: relative;
+      overflow: hidden;
+    }
+    .editor-canvas-hint {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--beige-border);
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      pointer-events: none;
+    }
+    .editor-inventory {
+      flex: 1;
+      background: var(--beige-light);
+      padding: 15px;
+      border-radius: var(--radius-lg);
+      height: 500px;
+      overflow-y: auto;
+    }
+    .inventory-item {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
       padding: 10px;
       margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
     }
-    .slot label { font-weight: 600; color: var(--accent-brown); }
-    .slot-preview { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
-    .slot-preview img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
+    .inventory-item:hover { transform: scale(1.02); }
+    .inventory-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 10px; }
+    
+    /* Vêtement placé sur la toile */
+    .canvas-item {
+      position: absolute;
+      top: 30%;
+      left: 30%;
+      cursor: grab;
+      user-select: none;
+      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.15));
+    }
+    .canvas-item:active { cursor: grabbing; }
+    .canvas-item img {
+      width: 150px; /* Taille par défaut sur la toile */
+      height: auto;
+      border-radius: var(--radius-md);
+      pointer-events: none;
+    }
+    .canvas-item-close {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #c26d5c;
+      color: white;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
@@ -185,12 +282,12 @@
   </header>
 
   <nav>
-    <button class="active" onclick="switchTab('dressing')">Dressing</button>
-    <button onclick="switchTab('editor')">Éditeur</button>
+    <button class="active" onclick="switchTab('dressing')">Garde-robe</button>
+    <button onclick="switchTab('editor')">Créer une tenue</button>
     <button onclick="switchTab('add')">+ Ajouter</button>
   </nav>
 
-  <!-- Onglet Dressing -->
+  <!-- Onglet Garde-robe -->
   <div id="tab-dressing" class="tab-content active">
     <div class="filters">
       <button class="filter-btn active" onclick="filterItems('all', this)">Tout</button>
@@ -198,64 +295,58 @@
       <button class="filter-btn" onclick="filterItems('Bas', this)">Bas</button>
       <button class="filter-btn" onclick="filterItems('Chaussures', this)">Chaussures</button>
       <button class="filter-btn" onclick="filterItems('Manteau', this)">Manteaux</button>
-      <button class="filter-btn" onclick="filterItems('dirty', this)">Au sale</button>
+      <button class="filter-btn" onclick="filterItems('Accessoire', this)">Accessoires</button>
+      <button class="filter-btn" onclick="filterItems('dirty', this)">Panier à Linge</button>
     </div>
     <div id="clothes-grid" class="grid"></div>
   </div>
 
   <!-- Onglet Éditeur -->
   <div id="tab-editor" class="tab-content">
-    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px; text-align: center;">
-      Compose ta tenue avec tes vêtements disponibles (non sales).
-    </p>
-    <div class="slot">
-      <label>Haut</label>
-      <select id="select-haut" onchange="updateOutfitPreview('haut')"></select>
-      <div id="preview-haut" class="slot-preview"></div>
-    </div>
-    <div class="slot">
-      <label>Bas</label>
-      <select id="select-bas" onchange="updateOutfitPreview('bas')"></select>
-      <div id="preview-bas" class="slot-preview"></div>
-    </div>
-    <div class="slot">
-      <label>Chaussures</label>
-      <select id="select-chaussures" onchange="updateOutfitPreview('chaussures')"></select>
-      <div id="preview-chaussures" class="slot-preview"></div>
+    <div class="editor-layout">
+      <div class="editor-canvas-container" id="editor-canvas">
+        <div class="editor-canvas-hint" id="canvas-hint">Clique sur un vêtement pour l'ajouter,<br>puis déplace-le.</div>
+      </div>
+      <div class="editor-inventory">
+        <h3 style="margin-bottom: 15px; color: var(--accent-brown); font-size:1.1rem;">Vêtements propres</h3>
+        <div id="inventory-list"></div>
+      </div>
     </div>
   </div>
 
   <!-- Onglet Ajouter -->
   <div id="tab-add" class="tab-content">
-    <form id="add-form" onsubmit="saveItem(event)">
-      <div class="form-group">
-        <label>Nom du vêtement</label>
-        <input type="text" id="item-name" placeholder="ex : Pull en maille beige" required>
-      </div>
-      <div class="form-group">
-        <label>Catégorie</label>
-        <select id="item-category" required>
-          <option value="Haut">Haut</option>
-          <option value="Bas">Bas</option>
-          <option value="Chaussures">Chaussures</option>
-          <option value="Manteau">Manteau / Veste</option>
-          <option value="Accessoire">Accessoire</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Description / Détails (optionnel)</label>
-        <textarea id="item-desc" rows="2" placeholder="ex : Taille M, très chaud"></textarea>
-      </div>
-      <div class="form-group">
-        <label>Photo</label>
-        <input type="file" id="item-photo" accept="image/*" required>
-      </div>
-      <button type="submit" class="btn-primary">Enregistrer le vêtement</button>
-    </form>
+    <div class="form-container">
+      <form id="add-form" onsubmit="saveItem(event)">
+        <div class="form-group">
+          <label>Nom du vêtement</label>
+          <input type="text" id="item-name" placeholder="ex : Pull torsadé beige" required>
+        </div>
+        <div class="form-group">
+          <label>Catégorie</label>
+          <select id="item-category" required>
+            <option value="Haut">Haut (T-shirt, Pull, Chemise...)</option>
+            <option value="Bas">Bas (Pantalon, Jupe, Short...)</option>
+            <option value="Chaussures">Chaussures</option>
+            <option value="Manteau">Manteau / Veste</option>
+            <option value="Accessoire">Accessoire (Sac, Bijoux...)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description (optionnel)</label>
+          <textarea id="item-desc" rows="3" placeholder="Matière, saison, occasion..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Photo</label>
+          <input type="file" id="item-photo" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn-primary">Ajouter à ma garde-robe</button>
+      </form>
+    </div>
   </div>
 
   <script>
-    let clothes = JSON.parse(localStorage.getItem('dressing_items')) || [];
+    let clothes = JSON.parse(localStorage.getItem('dressing_items_v2')) || [];
     let currentFilter = 'all';
 
     function switchTab(tabId) {
@@ -266,7 +357,7 @@
       event.target.classList.add('active');
 
       if (tabId === 'dressing') renderDressing();
-      if (tabId === 'editor') renderEditor();
+      if (tabId === 'editor') renderEditorInventory();
     }
 
     function saveItem(e) {
@@ -288,8 +379,9 @@
             isDirty: false
           };
           clothes.push(newItem);
-          localStorage.setItem('dressing_items', JSON.stringify(clothes));
+          localStorage.setItem('dressing_items_v2', JSON.stringify(clothes));
           document.getElementById('add-form').reset();
+          alert("Vêtement ajouté avec succès !");
           switchTab('dressing');
         };
         reader.readAsDataURL(fileInput.files[0]);
@@ -301,14 +393,14 @@
         if (item.id === id) item.isDirty = !item.isDirty;
         return item;
       });
-      localStorage.setItem('dressing_items', JSON.stringify(clothes));
+      localStorage.setItem('dressing_items_v2', JSON.stringify(clothes));
       renderDressing();
     }
 
     function deleteItem(id) {
-      if (confirm("Supprimer ce vêtement ?")) {
+      if (confirm("Es-tu sûr(e) de vouloir supprimer définitivement ce vêtement ?")) {
         clothes = clothes.filter(item => item.id !== id);
-        localStorage.setItem('dressing_items', JSON.stringify(clothes));
+        localStorage.setItem('dressing_items_v2', JSON.stringify(clothes));
         renderDressing();
       }
     }
@@ -332,7 +424,7 @@
       }
 
       if (filtered.length === 0) {
-        grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color: var(--text-muted); font-size:0.85rem; padding: 20px;">Aucun vêtement trouvé.</p>`;
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color: var(--text-muted); font-size:1.1rem; padding: 40px;">Rien à afficher ici pour le moment.</p>`;
         return;
       }
 
@@ -340,14 +432,14 @@
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
+          <span class="badge ${item.isDirty ? 'dirty' : 'clean'}">${item.isDirty ? 'Au sale' : 'Propre'}</span>
           <img src="${item.photo}" alt="${item.name}">
           <div class="card-body">
-            <span class="badge ${item.isDirty ? 'dirty' : 'clean'}">${item.isDirty ? 'Au sale' : 'Disponible'}</span>
             <div class="card-title">${item.name}</div>
             <div class="card-desc">${item.category} ${item.desc ? '• ' + item.desc : ''}</div>
             <div class="card-actions">
-              <button onclick="toggleStatus(${item.id})">${item.isDirty ? 'Lavez' : 'Au sale'}</button>
-              <button onclick="deleteItem(${item.id})" style="color: #b95d4b;">🗑️</button>
+              <button onclick="toggleStatus(${item.id})">${item.isDirty ? '✔ Marquer lavé' : '🧺 Mettre au sale'}</button>
+              <button class="btn-delete" onclick="deleteItem(${item.id})" title="Supprimer">🗑️</button>
             </div>
           </div>
         `;
@@ -355,37 +447,98 @@
       });
     }
 
-    function renderEditor() {
-      ['haut', 'bas', 'chaussures'].forEach(type => {
-        const select = document.getElementById(`select-${type}`);
-        select.innerHTML = '<option value="">-- Choisir --</option>';
-        
-        const catName = type === 'haut' ? 'Haut' : type === 'bas' ? 'Bas' : 'Chaussures';
-        const available = clothes.filter(i => i.category === catName && !i.isDirty);
+    // --- PARTIE ÉDITEUR --- //
+    function renderEditorInventory() {
+      const list = document.getElementById('inventory-list');
+      list.innerHTML = '';
+      
+      const available = clothes.filter(i => !i.isDirty);
+      if(available.length === 0) {
+         list.innerHTML = '<p style="font-size:0.9rem; color:gray;">Tous tes vêtements sont au sale ou ton dressing est vide !</p>';
+         return;
+      }
 
-        available.forEach(item => {
-          const opt = document.createElement('option');
-          opt.value = item.id;
-          opt.textContent = item.name;
-          select.appendChild(opt);
-        });
-        updateOutfitPreview(type);
+      available.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'inventory-item';
+        div.innerHTML = `
+          <img src="${item.photo}">
+          <div style="font-size:0.95rem; font-weight:500;">${item.name} <br><span style="font-size:0.8rem; color:gray; font-weight:normal;">${item.category}</span></div>
+        `;
+        div.onclick = () => addToCanvas(item);
+        list.appendChild(div);
       });
     }
 
-    function updateOutfitPreview(type) {
-      const select = document.getElementById(`select-${type}`);
-      const preview = document.getElementById(`preview-${type}`);
-      const itemId = Number(select.value);
-      const item = clothes.find(i => i.id === itemId);
+    function addToCanvas(item) {
+      document.getElementById('canvas-hint').style.display = 'none';
+      const canvas = document.getElementById('editor-canvas');
+      
+      const el = document.createElement('div');
+      el.className = 'canvas-item';
+      
+      // Centre l'élément de base
+      el.style.left = (canvas.offsetWidth / 2 - 75) + 'px';
+      el.style.top = (canvas.offsetHeight / 2 - 75) + 'px';
 
-      if (item) {
-        preview.innerHTML = `<img src="${item.photo}"> <span>${item.name}</span>`;
-      } else {
-        preview.innerHTML = '';
+      el.innerHTML = `
+        <div class="canvas-item-close" onclick="this.parentElement.remove(); if(document.querySelectorAll('.canvas-item').length === 0) document.getElementById('canvas-hint').style.display = 'block';">×</div>
+        <img src="${item.photo}">
+      `;
+      
+      canvas.appendChild(el);
+      makeDraggable(el);
+    }
+
+    // Fonction pour rendre un élément glissable (Souris + Tactile)
+    function makeDraggable(elmnt) {
+      let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      elmnt.onmousedown = dragMouseDown;
+      elmnt.ontouchstart = dragTouchStart;
+
+      function dragMouseDown(e) {
+        e.preventDefault();
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+      }
+
+      function dragTouchStart(e) {
+        pos3 = e.touches[0].clientX;
+        pos4 = e.touches[0].clientY;
+        document.ontouchend = closeDragElement;
+        document.ontouchmove = elementDragTouch;
+      }
+
+      function elementDrag(e) {
+        e.preventDefault();
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      }
+
+      function elementDragTouch(e) {
+        pos1 = pos3 - e.touches[0].clientX;
+        pos2 = pos4 - e.touches[0].clientY;
+        pos3 = e.touches[0].clientX;
+        pos4 = e.touches[0].clientY;
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+        document.ontouchend = null;
+        document.ontouchmove = null;
       }
     }
 
+    // Initialisation
     renderDressing();
   </script>
 </body>
