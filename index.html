@@ -464,6 +464,21 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    // =========================================================
+    // LISTE BLANCHE DES EMAILS AUTORISÉS
+    // Indiquez ici (en minuscules) les e-mails ayant le droit de se connecter
+    // =========================================================
+    const ALLOWED_EMAILS = [
+      "timothee.gasparotto@gmail.com",
+      "k.ledillau@yahoo.fr",
+      "louison.gasparotto@gmail.com"
+    ];
+
+    function isEmailAllowed(email) {
+      if (!email) return false;
+      return ALLOWED_EMAILS.includes(email.toLowerCase().trim());
+    }
+
     let currentUser = null;
     let clothes = [];
     let currentFilter = 'all';
@@ -475,8 +490,15 @@
 
     window.handleEmailAuth = async (e) => {
       e.preventDefault();
-      const email = document.getElementById('auth-email').value;
+      const email = document.getElementById('auth-email').value.trim();
       const pass = document.getElementById('auth-password').value;
+
+      // Vérification avant de tenter la création/connexion
+      if (!isEmailAllowed(email)) {
+        alert("Accès refusé : Votre adresse e-mail n'est pas autorisée à accéder à ce site.");
+        return;
+      }
+
       try {
         await signInWithEmailAndPassword(auth, email, pass);
       } catch (err) {
@@ -496,6 +518,13 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
+        // Vérification de sécurité lors du changement d'état (très important pour Google)
+        if (!isEmailAllowed(user.email)) {
+          alert("Accès refusé : L'adresse Google (" + user.email + ") n'est pas autorisée.");
+          await signOut(auth);
+          return;
+        }
+
         currentUser = user;
         document.getElementById('auth-screen').style.display = 'none';
         document.getElementById('app-screen').style.display = 'block';
@@ -690,7 +719,6 @@
       const img = el.querySelector('img');
       const closeBtn = el.querySelector('.canvas-item-close');
 
-      // Suppression de l'élément
       closeBtn.onclick = (e) => {
         e.stopPropagation();
         el.remove();
@@ -702,14 +730,12 @@
       setupInteraction(el, img);
     }
 
-    // Gestion du déplacement, du Zoom Molette (PC) et du Pincement (Mobile)
     function setupInteraction(elmnt, img) {
       let currentWidth = 140;
       let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
       let initialPinchDist = null;
       let initialWidthOnPinch = 140;
 
-      // --- ZOOM MOLETTE SUR PC ---
       elmnt.addEventListener('wheel', (e) => {
         e.preventDefault();
         if (e.deltaY < 0) {
@@ -720,7 +746,6 @@
         img.style.width = currentWidth + 'px';
       }, { passive: false });
 
-      // --- DÉPLACEMENT SOURIS (PC) ---
       elmnt.onmousedown = (e) => {
         if (e.target.classList.contains('canvas-item-close')) return;
         e.preventDefault();
@@ -741,16 +766,13 @@
         };
       };
 
-      // --- GESTION TACTILE : DÉPLACEMENT (1 DOIGT) + PINCEMENT ZOOM (2 DOIGTS) ---
       elmnt.addEventListener('touchstart', (e) => {
         if (e.target.classList.contains('canvas-item-close')) return;
 
         if (e.touches.length === 1) {
-          // 1 Doigt : Déplacement
           pos3 = e.touches[0].clientX;
           pos4 = e.touches[0].clientY;
         } else if (e.touches.length === 2) {
-          // 2 Doigts : Initialisation du Pincement
           initialPinchDist = getPinchDistance(e);
           initialWidthOnPinch = currentWidth;
         }
@@ -760,7 +782,6 @@
         if (e.target.classList.contains('canvas-item-close')) return;
 
         if (e.touches.length === 1 && initialPinchDist === null) {
-          // Déplacement à 1 doigt
           pos1 = pos3 - e.touches[0].clientX;
           pos2 = pos4 - e.touches[0].clientY;
           pos3 = e.touches[0].clientX;
@@ -768,7 +789,6 @@
           elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
           elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
         } else if (e.touches.length === 2) {
-          // Zoom à 2 doigts
           e.preventDefault();
           const currentDist = getPinchDistance(e);
           if (initialPinchDist && currentDist) {
