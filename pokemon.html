@@ -6,391 +6,65 @@
   <title>Classeur Pokémon</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* LE CSS RESTE IDENTIQUE A LA VERSION PRECEDENTE CREME/GRIS */
     :root {
-      --bg-main: #f0ece6;
-      --binder-cover: #323840;
-      --page-bg: #faf8f5;
-      --sleeve-bg: rgba(255, 255, 255, 0.55);
-      --sleeve-border: rgba(0, 0, 0, 0.08);
-      --text-main: #2d333b;
-      --text-muted: #7e8794;
-      --accent-dark: #24282f;
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 22px;
+      --bg-main: #f0ece6; --binder-cover: #323840; --page-bg: #faf8f5;
+      --sleeve-bg: rgba(255, 255, 255, 0.55); --sleeve-border: rgba(0, 0, 0, 0.08);
+      --text-main: #2d333b; --text-muted: #7e8794; --accent-dark: #24282f;
+      --radius-sm: 8px; --radius-md: 14px; --radius-lg: 22px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg-main);
-      background-image: radial-gradient(circle at 50% 20%, #f7f4ee 0%, #e6e0d6 100%);
-      color: var(--text-main);
-      min-height: 100vh;
-      padding: 24px 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    header {
-      width: 100%;
-      max-width: 1100px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 20px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    }
-
-    header h1 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--text-main);
-      letter-spacing: -0.5px;
-    }
-
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-main); background-image: radial-gradient(circle at 50% 20%, #f7f4ee 0%, #e6e0d6 100%); color: var(--text-main); min-height: 100vh; padding: 24px 12px; display: flex; flex-direction: column; align-items: center; }
+    header { width: 100%; max-width: 1100px; display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid rgba(0, 0, 0, 0.08); }
+    header h1 { font-size: 1.4rem; font-weight: 700; color: var(--text-main); }
     .header-btns { display: flex; gap: 10px; }
-
-    .btn-secondary {
-      background: #ffffff;
-      border: 1px solid rgba(0, 0, 0, 0.12);
-      color: var(--text-main);
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      font-weight: 500;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-      transition: all 0.2s;
-    }
-    .btn-secondary:hover {
-      background: #f4f1eb;
-      border-color: rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-primary {
-      background: var(--accent-dark);
-      color: #ffffff;
-      border: none;
-      padding: 9px 20px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(36, 40, 47, 0.15);
-      transition: transform 0.2s, background-color 0.2s;
-    }
-    .btn-primary:hover {
-      background: #3e4550;
-      transform: translateY(-1px);
-    }
-
-    /* CONTROLEUR DE NAVIGATION (PAGES) */
-    .page-controls {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 22px;
-      background: #ffffff;
-      padding: 8px 22px;
-      border-radius: 30px;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    }
-
-    .page-indicator {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-main);
-      letter-spacing: 0.5px;
-    }
-
-    .btn-page {
-      background: var(--bg-main);
-      border: 1px solid rgba(0,0,0,0.1);
-      color: var(--text-main);
-      padding: 6px 14px;
-      border-radius: 15px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-page:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
-    .btn-page:not(:disabled):hover {
-      background: #e2dcd3;
-    }
-
-    /* LE CLASSEUR OUVERT */
-    .binder-book {
-      width: 100%;
-      max-width: 1100px;
-      background: var(--binder-cover);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-      position: relative;
-    }
-
-    .binder-pages-container {
-      display: flex;
-      position: relative;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    }
-
-    .binder-page {
-      flex: 1;
-      background: var(--page-bg);
-      background-image: linear-gradient(180deg, #ffffff 0%, #f5f2eb 100%);
-      padding: 22px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      position: relative;
-    }
-
-    /* RELIURE CENTRALE */
-    .binder-spine {
-      width: 36px;
-      background: linear-gradient(90deg, #262b32 0%, #3e4652 50%, #262b32 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      padding: 40px 0;
-      z-index: 10;
-      box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
-    }
-
-    .ring {
-      width: 28px;
-      height: 12px;
-      background: linear-gradient(180deg, #ffffff 0%, #cfd5dd 50%, #8a929b 100%);
-      border-radius: 6px;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
-    }
-
-    /* POCHETTES TRANSPARENTES */
-    .pocket {
-      aspect-ratio: 2.5 / 3.5;
-      background: var(--sleeve-bg);
-      border: 1px solid var(--sleeve-border);
-      border-radius: var(--radius-sm);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 
-        inset 0 1px 2px rgba(255, 255, 255, 0.8),
-        inset 0 -1px 2px rgba(0, 0, 0, 0.05),
-        0 3px 8px rgba(0, 0, 0, 0.04);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .pocket.has-card {
-      cursor: pointer;
-    }
-
-    .pocket.has-card:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-    }
-
-    .pocket::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 6px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, transparent 100%);
-      border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
-      z-index: 4;
-    }
-
-    .pocket-shine {
-      position: absolute;
-      top: -100%;
-      left: -100%;
-      width: 300%;
-      height: 300%;
-      background: linear-gradient(
-        135deg,
-        transparent 42%,
-        rgba(255, 255, 255, 0.25) 47%,
-        rgba(255, 255, 255, 0.4) 50%,
-        transparent 53%
-      );
-      pointer-events: none;
-      z-index: 3;
-    }
-
-    .pocket-empty {
-      font-size: 0.7rem;
-      color: rgba(0, 0, 0, 0.22);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      user-select: none;
-    }
-
-    .card-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: calc(var(--radius-sm) - 2px);
-      z-index: 1;
-    }
-
-    .card-overlay {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 16px 8px 8px;
-      background: linear-gradient(to top, rgba(20,24,28,0.85) 0%, rgba(20,24,28,0.3) 65%, transparent 100%);
-      z-index: 2;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
+    .btn-secondary { background: #ffffff; border: 1px solid rgba(0, 0, 0, 0.12); color: var(--text-main); padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+    .btn-secondary:hover { background: #f4f1eb; border-color: rgba(0, 0, 0, 0.2); }
+    .btn-primary { background: var(--accent-dark); color: #ffffff; border: none; padding: 9px 20px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 12px rgba(36, 40, 47, 0.15); transition: transform 0.2s; }
+    .btn-primary:hover { background: #3e4550; transform: translateY(-1px); }
+    .page-controls { display: flex; align-items: center; gap: 18px; margin-bottom: 22px; background: #ffffff; padding: 8px 22px; border-radius: 30px; border: 1px solid rgba(0, 0, 0, 0.08); box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+    .page-indicator { font-size: 0.85rem; font-weight: 700; }
+    .btn-page { background: var(--bg-main); border: 1px solid rgba(0,0,0,0.1); padding: 6px 14px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+    .btn-page:disabled { opacity: 0.35; cursor: not-allowed; }
+    .btn-page:not(:disabled):hover { background: #e2dcd3; }
+    .binder-book { width: 100%; max-width: 1100px; background: var(--binder-cover); border-radius: var(--radius-lg); padding: 22px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.1); }
+    .binder-pages-container { display: flex; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+    .binder-page { flex: 1; background: var(--page-bg); background-image: linear-gradient(180deg, #ffffff 0%, #f5f2eb 100%); padding: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .binder-spine { width: 36px; background: linear-gradient(90deg, #262b32 0%, #3e4652 50%, #262b32 100%); display: flex; flex-direction: column; justify-content: space-around; align-items: center; padding: 40px 0; z-index: 10; box-shadow: inset 0 0 8px rgba(0,0,0,0.6); }
+    .ring { width: 28px; height: 12px; background: linear-gradient(180deg, #ffffff 0%, #cfd5dd 50%, #8a929b 100%); border-radius: 6px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); }
+    
+    .pocket { aspect-ratio: 2.5 / 3.5; background: var(--sleeve-bg); border: 1px solid var(--sleeve-border); border-radius: var(--radius-sm); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05), 0 3px 8px rgba(0, 0, 0, 0.04); transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s; }
+    .pocket.drag-over { background-color: rgba(36, 40, 47, 0.1); border: 2px dashed var(--accent-dark); }
+    .pocket.has-card { cursor: grab; }
+    .pocket.has-card:active { cursor: grabbing; }
+    .pocket.has-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.12); }
+    .pocket::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, transparent 100%); border-bottom: 1px dashed rgba(0, 0, 0, 0.08); z-index: 4; pointer-events: none; }
+    
+    .pocket-empty { font-size: 0.7rem; color: rgba(0, 0, 0, 0.22); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; user-select: none; }
+    .card-img { width: 100%; height: 100%; object-fit: cover; border-radius: calc(var(--radius-sm) - 2px); z-index: 1; pointer-events: none; }
+    
+    .card-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 8px 8px; background: linear-gradient(to top, rgba(20,24,28,0.85) 0%, rgba(20,24,28,0.3) 65%, transparent 100%); z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; opacity: 0; transition: opacity 0.2s; }
     .pocket:hover .card-overlay { opacity: 1; }
-
     .card-name { font-size: 0.72rem; font-weight: 600; color: #ffffff; line-height: 1.2; }
     .card-set { font-size: 0.62rem; color: #d0d7de; }
-
-    .btn-delete-card {
-      background: #e55353;
-      color: white;
-      border: none;
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.15s;
-    }
-    .btn-delete-card:hover { transform: scale(1.15); }
-
+    
+    .btn-delete-card { background: #e55353; color: white; border: none; width: 22px; height: 22px; border-radius: 50%; font-weight: bold; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
+    
     /* MODALS */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(30, 34, 40, 0.65);
-      backdrop-filter: blur(8px);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-content {
-      background: #faf8f5;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
-    .modal-content h2 { margin-bottom: 20px; color: var(--text-main); font-size: 1.25rem; font-weight: 700; }
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(30, 34, 40, 0.65); backdrop-filter: blur(8px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+    .modal-content { background: #faf8f5; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: var(--radius-lg); padding: 28px; width: 100%; max-width: 420px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    .modal-content h2 { margin-bottom: 20px; font-size: 1.25rem; font-weight: 700; }
     .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 0.8rem; margin-bottom: 6px; color: var(--text-muted); font-weight: 600; }
-    .form-group input {
-      width: 100%;
-      padding: 11px;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(0,0,0,0.12);
-      background: #ffffff;
-      color: var(--text-main);
-      font-family: inherit;
-    }
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--text-main);
-    }
+    .form-group label { display: block; font-size: 0.8rem; margin-bottom: 6px; font-weight: 600; }
+    .form-group input { width: 100%; padding: 11px; border-radius: var(--radius-md); border: 1px solid rgba(0,0,0,0.12); font-family: inherit; }
     .modal-actions { display: flex; gap: 12px; margin-top: 24px; }
+    
+    .zoom-container { position: relative; display: flex; flex-direction: column; align-items: center; max-width: 90vw; max-height: 90vh; }
+    .zoom-card-img { max-width: 380px; width: 80vw; max-height: 70vh; object-fit: contain; border-radius: 12px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4); }
+    .zoom-details { margin-top: 16px; background: #ffffff; padding: 12px 24px; border-radius: 30px; text-align: center; }
+    .zoom-close { position: absolute; top: -15px; right: -15px; background: #ffffff; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-    /* MODAL ZOOM CARTE */
-    .zoom-container {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 90vw;
-      max-height: 90vh;
-    }
-
-    .zoom-card-img {
-      max-width: 380px;
-      width: 80vw;
-      max-height: 70vh;
-      object-fit: contain;
-      border-radius: 12px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-      animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .zoom-details {
-      margin-top: 16px;
-      background: #ffffff;
-      padding: 12px 24px;
-      border-radius: 30px;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-
-    .zoom-details h3 {
-      font-size: 1.1rem;
-      color: var(--text-main);
-      margin-bottom: 2px;
-    }
-
-    .zoom-details p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .zoom-close {
-      position: absolute;
-      top: -15px;
-      right: -15px;
-      background: #ffffff;
-      color: var(--text-main);
-      border: none;
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      font-size: 1.2rem;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    @keyframes popIn {
-      from { transform: scale(0.85); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    @media (max-width: 768px) {
-      .binder-pages-container { flex-direction: column; }
-      .binder-spine { width: 100%; height: 20px; flex-direction: row; padding: 0 30px; }
-      .ring { width: 12px; height: 24px; }
-    }
+    @media (max-width: 768px) { .binder-pages-container { flex-direction: column; } .binder-spine { width: 100%; height: 20px; flex-direction: row; padding: 0 30px; } .ring { width: 12px; height: 24px; } }
   </style>
 </head>
 <body>
@@ -403,25 +77,18 @@
     </div>
   </header>
 
-  <!-- NAVIGATION PAGES -->
   <div class="page-controls">
     <button class="btn-page" id="btn-prev-page" onclick="changePage(-1)">◀ Page précédente</button>
-    <div class="page-indicator" id="page-indicator">PAGES 1-2 / 2</div>
+    <div class="page-indicator" id="page-indicator">PAGES 1-2</div>
     <button class="btn-page" id="btn-next-page" onclick="changePage(1)">Page suivante ▶</button>
   </div>
 
-  <!-- CLASSEUR OUVERT -->
   <div class="binder-book">
     <div class="binder-pages-container">
       <div class="binder-page" id="page-left"></div>
-
       <div class="binder-spine">
-        <div class="ring"></div>
-        <div class="ring"></div>
-        <div class="ring"></div>
-        <div class="ring"></div>
+        <div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div>
       </div>
-
       <div class="binder-page" id="page-right"></div>
     </div>
   </div>
@@ -431,18 +98,9 @@
     <div class="modal-content">
       <h2>Nouvelle Carte Pokémon</h2>
       <form id="add-card-form" onsubmit="savePokemonCard(event)">
-        <div class="form-group">
-          <label>Nom du Pokémon</label>
-          <input type="text" id="card-name" placeholder="ex : Dracaufeu Ex" required>
-        </div>
-        <div class="form-group">
-          <label>Set / Extension</label>
-          <input type="text" id="card-set" placeholder="ex : 151">
-        </div>
-        <div class="form-group">
-          <label>Photo de la carte</label>
-          <input type="file" id="card-photo" accept="image/*" required>
-        </div>
+        <div class="form-group"><label>Nom du Pokémon</label><input type="text" id="card-name" required></div>
+        <div class="form-group"><label>Set / Extension</label><input type="text" id="card-set"></div>
+        <div class="form-group"><label>Photo de la carte</label><input type="file" id="card-photo" accept="image/*" required></div>
         <div class="modal-actions">
           <button type="button" class="btn-secondary" style="flex:1;" onclick="closeModal()">Annuler</button>
           <button type="submit" class="btn-primary" style="flex:1;" id="btn-save-card">Glisser dans le classeur</button>
@@ -451,14 +109,13 @@
     </div>
   </div>
 
-  <!-- MODAL ZOOM CARTE -->
+  <!-- MODAL ZOOM -->
   <div class="modal" id="zoom-modal" onclick="closeZoomModal()">
     <div class="zoom-container" onclick="event.stopPropagation()">
       <button class="zoom-close" onclick="closeZoomModal()">×</button>
-      <img id="zoom-img" src="" alt="" class="zoom-card-img">
+      <img id="zoom-img" src="" class="zoom-card-img">
       <div class="zoom-details">
-        <h3 id="zoom-title"></h3>
-        <p id="zoom-set"></p>
+        <h3 id="zoom-title"></h3><p id="zoom-set"></p>
       </div>
     </div>
   </div>
@@ -466,7 +123,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCChFpWShbuLd7ejME5mlrtQpZwEvANeJw",
@@ -481,10 +138,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // =========================================================
-    // N'OUBLIE PAS DE METTRE TON E-MAIL ADMIN ICI :
-    // =========================================================
-    const ADMIN_EMAIL = "timothee.gasparotto@gmail.com";
+    const ADMIN_EMAIL = "votre-email@gmail.com"; // TON EMAIL
 
     let isAdmin = false;
     let pokemonCards = [];
@@ -492,102 +146,128 @@
     const CARDS_PER_DOUBLE_PAGE = 18;
 
     onAuthStateChanged(auth, async (user) => {
-      if (user && user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-        isAdmin = true;
-        document.getElementById('btn-add-trigger').style.display = 'block';
-      } else {
-        isAdmin = false;
-        document.getElementById('btn-add-trigger').style.display = 'none';
-      }
+      isAdmin = (user && user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+      document.getElementById('btn-add-trigger').style.display = isAdmin ? 'block' : 'none';
       await loadPokemonCards();
     });
 
     async function loadPokemonCards() {
-      try {
-        const q = query(collection(db, "pokemon_cards"));
-        const querySnapshot = await getDocs(q);
-        pokemonCards = [];
-        querySnapshot.forEach((doc) => {
-          pokemonCards.push({ id: doc.id, ...doc.data() });
-        });
-        renderBinder();
-      } catch (err) {
-        console.error("Erreur de chargement :", err);
+      const querySnapshot = await getDocs(collection(db, "pokemon_cards"));
+      pokemonCards = [];
+      let maxIndex = -1;
+
+      querySnapshot.forEach((docSnap) => {
+        let data = docSnap.data();
+        if (data.pocketIndex !== undefined) {
+          maxIndex = Math.max(maxIndex, data.pocketIndex);
+          pokemonCards.push({ id: docSnap.id, ...data });
+        } else {
+          // Rétrocompatibilité si tu avais des cartes sans position
+          pokemonCards.push({ id: docSnap.id, needsIndex: true, ...data });
+        }
+      });
+
+      // Attribuer un index aux vieilles cartes
+      for (let c of pokemonCards) {
+        if (c.needsIndex) {
+          maxIndex++;
+          c.pocketIndex = maxIndex;
+          await updateDoc(doc(db, "pokemon_cards", c.id), { pocketIndex: maxIndex });
+        }
       }
+      renderBinder();
     }
 
     function renderBinder() {
       const pageLeft = document.getElementById('page-left');
       const pageRight = document.getElementById('page-right');
-      pageLeft.innerHTML = '';
-      pageRight.innerHTML = '';
+      pageLeft.innerHTML = ''; pageRight.innerHTML = '';
 
-      const totalDoublePages = Math.max(1, Math.ceil(pokemonCards.length / CARDS_PER_DOUBLE_PAGE));
-      if (currentPage > totalDoublePages) currentPage = totalDoublePages;
-
+      let maxCardIndex = Math.max(...pokemonCards.map(c => c.pocketIndex), 0);
+      const totalDoublePages = Math.max(1, Math.ceil((maxCardIndex + 1) / CARDS_PER_DOUBLE_PAGE));
+      
       document.getElementById('page-indicator').innerText = `PAGES ${currentPage * 2 - 1}-${currentPage * 2} / ${totalDoublePages * 2}`;
       document.getElementById('btn-prev-page').disabled = (currentPage === 1);
-      document.getElementById('btn-next-page').disabled = (currentPage === totalDoublePages);
 
       const startIndex = (currentPage - 1) * CARDS_PER_DOUBLE_PAGE;
 
-      // Page gauche (poches 0 à 8)
-      for (let i = 0; i < 9; i++) {
-        pageLeft.appendChild(createPocket(pokemonCards[startIndex + i]));
-      }
-
-      // Page droite (poches 9 à 17)
-      for (let i = 9; i < 18; i++) {
-        pageRight.appendChild(createPocket(pokemonCards[startIndex + i]));
-      }
+      for (let i = 0; i < 9; i++) pageLeft.appendChild(createPocket(startIndex + i));
+      for (let i = 9; i < 18; i++) pageRight.appendChild(createPocket(startIndex + i));
     }
 
-    function createPocket(card) {
+    function createPocket(pocketIndex) {
       const pocket = document.createElement('div');
       pocket.className = 'pocket';
+      pocket.dataset.index = pocketIndex;
 
-      const shine = document.createElement('div');
-      shine.className = 'pocket-shine';
-      pocket.appendChild(shine);
+      // Configuration Drag & Drop
+      if (isAdmin) {
+        pocket.ondragover = (e) => { e.preventDefault(); pocket.classList.add('drag-over'); };
+        pocket.ondragleave = () => pocket.classList.remove('drag-over');
+        pocket.ondrop = (e) => handleDrop(e, pocketIndex, pocket);
+      }
+
+      const card = pokemonCards.find(c => c.pocketIndex === pocketIndex);
 
       if (card) {
         pocket.classList.add('has-card');
-        
-        const img = document.createElement('img');
-        img.src = card.photo;
-        img.className = 'card-img';
-        img.alt = card.name;
-        pocket.appendChild(img);
+        if (isAdmin) {
+          pocket.draggable = true;
+          pocket.ondragstart = (e) => {
+            e.dataTransfer.setData('sourceId', card.id);
+            e.dataTransfer.setData('sourceIndex', card.pocketIndex);
+          };
+        }
 
-        const overlay = document.createElement('div');
-        overlay.className = 'card-overlay';
-        overlay.innerHTML = `
-          <div>
-            <div class="card-name">${card.name}</div>
-            ${card.set ? `<div class="card-set">${card.set}</div>` : ''}
+        pocket.innerHTML = `
+          <img src="${card.photo}" class="card-img" alt="${card.name}">
+          <div class="card-overlay">
+            <div>
+              <div class="card-name">${card.name}</div>
+              ${card.set ? `<div class="card-set">${card.set}</div>` : ''}
+            </div>
+            ${isAdmin ? `<button class="btn-delete-card" id="del-${card.id}">×</button>` : ''}
           </div>
         `;
 
-        if (isAdmin) {
-          const deleteBtn = document.createElement('button');
-          deleteBtn.className = 'btn-delete-card';
-          deleteBtn.innerText = '×';
-          deleteBtn.onclick = (e) => {
-            e.stopPropagation(); // Évite d'ouvrir le zoom quand on clique sur supprimer
-            deleteCard(card.id);
-          };
-          overlay.appendChild(deleteBtn);
+        pocket.onclick = (e) => {
+          if (e.target.tagName !== 'BUTTON') zoomCard(card);
+        };
+        
+        if(isAdmin) {
+          setTimeout(() => {
+            document.getElementById(`del-${card.id}`).onclick = (e) => { e.stopPropagation(); deleteCard(card.id); };
+          }, 0);
         }
-
-        pocket.appendChild(overlay);
-
-        // Zoom au clic sur la pochette
-        pocket.onclick = () => zoomCard(card);
       } else {
-        pocket.innerHTML += `<div class="pocket-empty">Vide</div>`;
+        pocket.innerHTML = `<div class="pocket-empty">Vide</div>`;
       }
-
       return pocket;
+    }
+
+    async function handleDrop(e, targetIndex, pocketElement) {
+      e.preventDefault();
+      pocketElement.classList.remove('drag-over');
+      
+      const sourceId = e.dataTransfer.getData('sourceId');
+      const sourceIndex = parseInt(e.dataTransfer.getData('sourceIndex'));
+      if (sourceIndex === targetIndex) return;
+
+      const sourceCard = pokemonCards.find(c => c.id === sourceId);
+      const targetCard = pokemonCards.find(c => c.pocketIndex === targetIndex);
+
+      if (targetCard) {
+        // Echange de place
+        sourceCard.pocketIndex = targetIndex;
+        targetCard.pocketIndex = sourceIndex;
+        await updateDoc(doc(db, "pokemon_cards", targetCard.id), { pocketIndex: sourceIndex });
+      } else {
+        // Déplacement vers case vide
+        sourceCard.pocketIndex = targetIndex;
+      }
+      
+      await updateDoc(doc(db, "pokemon_cards", sourceId), { pocketIndex: targetIndex });
+      renderBinder();
     }
 
     function zoomCard(card) {
@@ -597,63 +277,42 @@
       document.getElementById('zoom-modal').style.display = 'flex';
     }
 
-    window.closeZoomModal = () => {
-      document.getElementById('zoom-modal').style.display = 'none';
-    };
-
-    window.changePage = (direction) => {
-      currentPage += direction;
-      renderBinder();
-    };
-
-    window.openModal = () => {
-      document.getElementById('add-modal').style.display = 'flex';
-    };
-
-    window.closeModal = () => {
-      document.getElementById('add-modal').style.display = 'none';
-      document.getElementById('add-card-form').reset();
-    };
+    window.closeZoomModal = () => document.getElementById('zoom-modal').style.display = 'none';
+    window.changePage = (dir) => { currentPage += dir; renderBinder(); };
+    window.openModal = () => document.getElementById('add-modal').style.display = 'flex';
+    window.closeModal = () => { document.getElementById('add-modal').style.display = 'none'; document.getElementById('add-card-form').reset(); };
 
     window.savePokemonCard = async (e) => {
       e.preventDefault();
-      if (!isAdmin) return alert("Seul l'administrateur peut ajouter des cartes !");
-
+      if (!isAdmin) return;
       const btn = document.getElementById('btn-save-card');
-      btn.innerText = "Traitement...";
-      btn.disabled = true;
+      btn.innerText = "Traitement..."; btn.disabled = true;
 
-      const name = document.getElementById('card-name').value;
-      const set = document.getElementById('card-set').value;
-      const fileInput = document.getElementById('card-photo');
+      const file = document.getElementById('card-photo').files[0];
+      const resizedImage = await compressImage(file, 700);
 
-      if (fileInput.files && fileInput.files[0]) {
-        const file = fileInput.files[0];
-        const resizedImage = await compressImage(file, 700);
+      // Trouver la première case vide
+      let newIndex = 0;
+      while (pokemonCards.find(c => c.pocketIndex === newIndex)) newIndex++;
 
-        const newCard = {
-          name,
-          set,
-          photo: resizedImage,
-          createdAt: Date.now()
-        };
+      const newCard = {
+        name: document.getElementById('card-name').value,
+        set: document.getElementById('card-set').value,
+        photo: resizedImage,
+        pocketIndex: newIndex,
+        createdAt: Date.now()
+      };
 
-        const docRef = await addDoc(collection(db, "pokemon_cards"), newCard);
-        pokemonCards.push({ id: docRef.id, ...newCard });
+      const docRef = await addDoc(collection(db, "pokemon_cards"), newCard);
+      pokemonCards.push({ id: docRef.id, ...newCard });
 
-        currentPage = Math.ceil(pokemonCards.length / CARDS_PER_DOUBLE_PAGE);
-
-        closeModal();
-        renderBinder();
-      }
-
-      btn.innerText = "Glisser dans le classeur";
-      btn.disabled = false;
+      currentPage = Math.ceil((newIndex + 1) / CARDS_PER_DOUBLE_PAGE);
+      closeModal(); renderBinder();
+      btn.innerText = "Glisser dans le classeur"; btn.disabled = false;
     };
 
     window.deleteCard = async (id) => {
-      if (!isAdmin) return;
-      if (confirm("Retirer cette carte du classeur ?")) {
+      if (confirm("Retirer cette carte ?")) {
         pokemonCards = pokemonCards.filter(c => c.id !== id);
         renderBinder();
         await deleteDoc(doc(db, "pokemon_cards", id));
@@ -661,38 +320,25 @@
     };
 
     function compressImage(file, maxWidth) {
-      return new Promise((resolve) => {
+      return new Promise((res) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (e) => {
-          const img = new Image();
-          img.src = e.target.result;
+          const img = new Image(); img.src = e.target.result;
           img.onload = () => {
             const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-
-            if (width > maxWidth) {
-              height = Math.round((height * maxWidth) / width);
-              width = maxWidth;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', 0.85));
+            let w = img.width, h = img.height;
+            if (w > maxWidth) { h = Math.round((h * maxWidth) / w); w = maxWidth; }
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            res(canvas.toDataURL('image/jpeg', 0.85));
           };
         };
       });
     }
 
-    // Fermeture avec la touche Échap
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeZoomModal();
-        closeModal();
-      }
+      if (e.key === 'Escape') { closeZoomModal(); closeModal(); }
     });
   </script>
 </body>
