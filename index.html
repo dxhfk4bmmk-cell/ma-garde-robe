@@ -95,10 +95,7 @@
       text-transform: uppercase;
       font-size: 1.5rem;
     }
-    .header-btns {
-      display: flex;
-      gap: 10px;
-    }
+    .header-btns { display: flex; gap: 10px; }
     .btn-secondary {
       background: var(--beige-light);
       border: 1px solid var(--beige-border);
@@ -141,20 +138,14 @@
       border-color: var(--accent-brown);
       background: #faf8f5;
     }
-    .project-icon {
-      font-size: 3.5rem;
-      margin-bottom: 15px;
-    }
+    .project-icon { font-size: 3.5rem; margin-bottom: 15px; }
     .project-card h3 {
       font-size: 1.4rem;
       font-weight: 600;
       color: var(--accent-brown);
       margin-bottom: 8px;
     }
-    .project-card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
+    .project-card p { font-size: 0.9rem; color: var(--text-muted); }
 
     /* APPLICATION DRESSING */
     #app-screen { display: none; }
@@ -187,7 +178,6 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* Formulaires */
     .form-container {
       background: var(--card-bg);
       padding: 25px;
@@ -209,7 +199,6 @@
       font-size: 0.95rem;
       color: var(--text-dark);
     }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-brown); }
     
     button.btn-primary {
       width: 100%;
@@ -223,39 +212,21 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    button.btn-primary:hover { background: var(--accent-hover); }
 
-    /* Filtres */
-    .filters {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 25px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-    }
+    .filters { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 8px; }
     .filter-btn {
       padding: 8px 18px;
       border-radius: 30px;
       border: 2px solid var(--beige-border);
       background: var(--card-bg);
       font-size: 0.9rem;
-      font-family: inherit;
       color: var(--text-muted);
       cursor: pointer;
       white-space: nowrap;
     }
-    .filter-btn.active {
-      background: var(--accent-brown);
-      color: #fff;
-      border-color: var(--accent-brown);
-    }
+    .filter-btn.active { background: var(--accent-brown); color: #fff; border-color: var(--accent-brown); }
 
-    /* Grille Dressing */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
     .card {
       background: var(--card-bg);
       border-radius: var(--radius-lg);
@@ -272,113 +243,53 @@
     .card-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
     
     .badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: white;
+      position: absolute; top: 10px; left: 10px;
+      padding: 4px 10px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 500; color: white;
     }
     .badge.clean { background: var(--badge-clean); }
     .badge.dirty { background: var(--badge-dirty); }
 
     .card-actions { margin-top: auto; display: flex; gap: 8px; }
     .card-actions button {
-      flex: 1;
-      padding: 8px;
-      font-size: 0.85rem;
-      font-family: inherit;
-      border: none;
-      background: var(--beige-light);
-      color: var(--accent-brown);
-      border-radius: var(--radius-md);
-      cursor: pointer;
+      flex: 1; padding: 8px; font-size: 0.85rem;
+      font-family: inherit; border: none;
+      background: var(--beige-light); color: var(--accent-brown);
+      border-radius: var(--radius-md); cursor: pointer;
     }
     .card-actions button.btn-delete { background: #fff0ed; color: #c26d5c; flex: 0.35; }
 
-    /* Éditeur */
     .editor-layout { display: flex; gap: 20px; flex-direction: column; }
     @media (min-width: 768px) { .editor-layout { flex-direction: row; } }
     
     .editor-canvas-container {
-      flex: 2;
-      background: var(--card-bg);
+      flex: 2; background: var(--card-bg);
       border: 3px dashed var(--beige-border);
-      border-radius: var(--radius-lg);
-      min-height: 480px;
-      position: relative;
-      overflow: hidden;
-      touch-action: none;
+      border-radius: var(--radius-lg); min-height: 480px;
+      position: relative; overflow: hidden; touch-action: none;
     }
     .editor-canvas-hint {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: var(--beige-border);
-      font-size: 1.1rem;
-      font-weight: 500;
-      text-align: center;
-      pointer-events: none;
-      line-height: 1.5;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      color: var(--beige-border); font-size: 1.1rem; font-weight: 500; text-align: center; pointer-events: none;
     }
     .editor-inventory {
-      flex: 1;
-      background: var(--beige-light);
-      padding: 15px;
-      border-radius: var(--radius-lg);
-      height: 480px;
-      overflow-y: auto;
+      flex: 1; background: var(--beige-light);
+      padding: 15px; border-radius: var(--radius-lg);
+      height: 480px; overflow-y: auto;
     }
     .inventory-item {
-      background: var(--card-bg);
-      border-radius: var(--radius-md);
-      padding: 10px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
+      background: var(--card-bg); border-radius: var(--radius-md);
+      padding: 10px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; cursor: pointer;
     }
     .inventory-item img { width: 50px; height: 50px; object-fit: contain; border-radius: 8px; }
 
-    /* Élément interactif sur le canevas */
-    .canvas-item {
-      position: absolute;
-      top: 25%;
-      left: 25%;
-      cursor: grab;
-      user-select: none;
-      touch-action: none;
-      display: inline-block;
-    }
-    .canvas-item img {
-      width: 140px;
-      height: auto;
-      border-radius: var(--radius-md);
-      pointer-events: none;
-      display: block;
-      background: transparent;
-    }
+    .canvas-item { position: absolute; top: 25%; left: 25%; cursor: grab; user-select: none; touch-action: none; }
+    .canvas-item img { width: 140px; height: auto; border-radius: var(--radius-md); pointer-events: none; display: block; background: transparent; }
     .canvas-item-close {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      background: #c26d5c;
-      color: white;
-      border-radius: 50%;
-      width: 22px;
-      height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.8rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      z-index: 10;
+      position: absolute; top: -10px; right: -10px;
+      background: #c26d5c; color: white; border-radius: 50%;
+      width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
+      font-weight: bold; cursor: pointer; font-size: 0.8rem; box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index: 10;
     }
   </style>
 </head>
@@ -423,11 +334,11 @@
         <p>Garde-robe, panier à linge et créateur de tenues</p>
       </div>
 
-      <!-- Projet exemple pour l'avenir -->
-      <div class="project-card" style="opacity: 0.6; cursor: default;">
-        <div class="project-icon">✨</div>
-        <h3>Nouveau Projet</h3>
-        <p>À venir bientôt...</p>
+      <!-- Projet Album Pokémon -->
+      <div class="project-card" onclick="openProject('pokemon')">
+        <div class="project-icon">⚡</div>
+        <h3>Classeur Pokémon</h3>
+        <p>Collection de cartes Pokémon & classement par pochette</p>
       </div>
     </div>
   </div>
@@ -502,7 +413,7 @@
             <textarea id="item-desc" rows="2" placeholder="Matière, couleur, saison..."></textarea>
           </div>
           <div class="form-group">
-            <label>Photo (de préférence en .PNG sans fond)</label>
+            <label>Photo</label>
             <input type="file" id="item-photo" accept="image/*" required>
           </div>
           <button type="submit" class="btn-primary" id="btn-save">Ajouter au cloud</button>
@@ -548,11 +459,8 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // =========================================================
-    // LISTE BLANCHE DES EMAILS AUTORISÉS
-    // =========================================================
     const ALLOWED_EMAILS = [
-      "timothee.gasparotto@gmail.com",
+      "votre-email@gmail.com",
       "ami1@gmail.com",
       "famille@gmail.com"
     ];
@@ -616,7 +524,6 @@
       }
     });
 
-    // GESTION DES ECRANS
     window.showProjects = () => {
       document.getElementById('auth-screen').style.display = 'none';
       document.getElementById('app-screen').style.display = 'none';
@@ -628,6 +535,8 @@
         document.getElementById('projects-screen').style.display = 'none';
         document.getElementById('app-screen').style.display = 'block';
         await loadUserClothes();
+      } else if (projectId === 'pokemon') {
+        window.location.href = 'pokemon.html';
       }
     };
 
@@ -659,12 +568,7 @@
 
         const newItem = {
           userId: currentUser.uid,
-          name,
-          category,
-          desc,
-          photo: resizedImage,
-          isDirty: false,
-          createdAt: Date.now()
+          name, category, desc, photo: resizedImage, isDirty: false, createdAt: Date.now()
         };
 
         const docRef = await addDoc(collection(db, "clothes"), newItem);
@@ -697,10 +601,7 @@
             canvas.width = width;
             canvas.height = height;
             const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, width, height); // Garantit un fond transparent
-            ctx.drawImage(img, 0, 0, width, height);
-            
-            // Export au format PNG pour conserver la transparence
+            ctx.clearRect(0, 0, width, height);
             resolve(canvas.toDataURL('image/png'));
           };
         };
@@ -726,7 +627,6 @@
     window.switchTab = (tabId) => {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
-      
       document.getElementById(`tab-${tabId}`).classList.add('active');
       event.target.classList.add('active');
 
@@ -801,17 +701,11 @@
     function addToCanvas(item) {
       document.getElementById('canvas-hint').style.display = 'none';
       const canvas = document.getElementById('editor-canvas');
-      
       const el = document.createElement('div');
       el.className = 'canvas-item';
       el.style.left = (canvas.offsetWidth / 2 - 70) + 'px';
       el.style.top = (canvas.offsetHeight / 2 - 70) + 'px';
-
-      el.innerHTML = `
-        <div class="canvas-item-close">×</div>
-        <img src="${item.photo}">
-      `;
-      
+      el.innerHTML = `<div class="canvas-item-close">×</div><img src="${item.photo}">`;
       canvas.appendChild(el);
 
       const img = el.querySelector('img');
@@ -836,11 +730,7 @@
 
       elmnt.addEventListener('wheel', (e) => {
         e.preventDefault();
-        if (e.deltaY < 0) {
-          currentWidth = Math.min(350, currentWidth + 12);
-        } else {
-          currentWidth = Math.max(50, currentWidth - 12);
-        }
+        currentWidth = e.deltaY < 0 ? Math.min(350, currentWidth + 12) : Math.max(50, currentWidth - 12);
         img.style.width = currentWidth + 'px';
       }, { passive: false });
 
@@ -849,16 +739,11 @@
         e.preventDefault();
         pos3 = e.clientX;
         pos4 = e.clientY;
-        document.onmouseup = () => {
-          document.onmouseup = null;
-          document.onmousemove = null;
-        };
+        document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
         document.onmousemove = (e) => {
           e.preventDefault();
-          pos1 = pos3 - e.clientX;
-          pos2 = pos4 - e.clientY;
-          pos3 = e.clientX;
-          pos4 = e.clientY;
+          pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
+          pos3 = e.clientX; pos4 = e.clientY;
           elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
           elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
         };
@@ -866,10 +751,8 @@
 
       elmnt.addEventListener('touchstart', (e) => {
         if (e.target.classList.contains('canvas-item-close')) return;
-
         if (e.touches.length === 1) {
-          pos3 = e.touches[0].clientX;
-          pos4 = e.touches[0].clientY;
+          pos3 = e.touches[0].clientX; pos4 = e.touches[0].clientY;
         } else if (e.touches.length === 2) {
           initialPinchDist = getPinchDistance(e);
           initialWidthOnPinch = currentWidth;
@@ -878,12 +761,9 @@
 
       elmnt.addEventListener('touchmove', (e) => {
         if (e.target.classList.contains('canvas-item-close')) return;
-
         if (e.touches.length === 1 && initialPinchDist === null) {
-          pos1 = pos3 - e.touches[0].clientX;
-          pos2 = pos4 - e.touches[0].clientY;
-          pos3 = e.touches[0].clientX;
-          pos4 = e.touches[0].clientY;
+          pos1 = pos3 - e.touches[0].clientX; pos2 = pos4 - e.touches[0].clientY;
+          pos3 = e.touches[0].clientX; pos4 = e.touches[0].clientY;
           elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
           elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
         } else if (e.touches.length === 2) {
@@ -897,17 +777,10 @@
         }
       }, { passive: false });
 
-      elmnt.addEventListener('touchend', (e) => {
-        if (e.touches.length < 2) {
-          initialPinchDist = null;
-        }
-      });
+      elmnt.addEventListener('touchend', (e) => { if (e.touches.length < 2) initialPinchDist = null; });
 
       function getPinchDistance(e) {
-        return Math.hypot(
-          e.touches[0].clientX - e.touches[1].clientX,
-          e.touches[0].clientY - e.touches[1].clientY
-        );
+        return Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
       }
     }
   </script>
